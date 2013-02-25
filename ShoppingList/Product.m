@@ -2,7 +2,7 @@
 //  Product.m
 //  ShoppingList
 //
-//  Created by edzio27 on 24.02.2013.
+//  Created by edzio27 on 25.02.2013.
 //  Copyright (c) 2013 edzio27. All rights reserved.
 //
 
@@ -11,8 +11,9 @@
 
 @implementation Product
 
-@dynamic productName;
 @dynamic productAmount;
 @dynamic productBought;
+@dynamic productName;
+@dynamic productTimeStamp;
 
 @end

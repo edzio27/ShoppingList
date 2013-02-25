@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EKViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
+@interface EKViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, UITextFieldDelegate>
 
 @end

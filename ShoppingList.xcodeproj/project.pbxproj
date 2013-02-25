@@ -21,7 +21,9 @@
 		DB7CA43516DACD3400AD8B4F /* EKViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = DB7CA43316DACD3400AD8B4F /* EKViewController_iPad.xib */; };
 		DB7CA44016DACD3400AD8B4F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB7CA43F16DACD3400AD8B4F /* CoreData.framework */; };
 		DB7CA44316DACD3400AD8B4F /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DB7CA44116DACD3400AD8B4F /* CoreDataModel.xcdatamodeld */; };
-		DB7CA44916DAD2E900AD8B4F /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = DB7CA44816DAD2E800AD8B4F /* Product.m */; };
+		DB860FB216DC11A00022D7EA /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = DB860FB116DC11A00022D7EA /* Product.m */; };
+		DB860FBB16DC19E50022D7EA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = DB860FBA16DC19E50022D7EA /* Reachability.m */; };
+		DB860FC516DC1D530022D7EA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB860FC416DC1D530022D7EA /* SystemConfiguration.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,8 +46,11 @@
 		DB7CA43416DACD3400AD8B4F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/EKViewController_iPad.xib; sourceTree = "<group>"; };
 		DB7CA43F16DACD3400AD8B4F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		DB7CA44216DACD3400AD8B4F /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
-		DB7CA44716DAD2E800AD8B4F /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
-		DB7CA44816DAD2E800AD8B4F /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Product.m; sourceTree = "<group>"; };
+		DB860FB016DC11A00022D7EA /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
+		DB860FB116DC11A00022D7EA /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Product.m; sourceTree = "<group>"; };
+		DB860FB916DC19E50022D7EA /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		DB860FBA16DC19E50022D7EA /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		DB860FC416DC1D530022D7EA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB860FC516DC1D530022D7EA /* SystemConfiguration.framework in Frameworks */,
 				DB7CA44016DACD3400AD8B4F /* CoreData.framework in Frameworks */,
 				DB7CA41616DACD3400AD8B4F /* UIKit.framework in Frameworks */,
 				DB7CA41816DACD3400AD8B4F /* Foundation.framework in Frameworks */,
@@ -66,6 +72,7 @@
 		DB7CA40616DACD3400AD8B4F = {
 			isa = PBXGroup;
 			children = (
+				DB860FC416DC1D530022D7EA /* SystemConfiguration.framework */,
 				DB7CA43F16DACD3400AD8B4F /* CoreData.framework */,
 				DB7CA41B16DACD3400AD8B4F /* ShoppingList */,
 				DB7CA41416DACD3400AD8B4F /* Frameworks */,
@@ -94,6 +101,7 @@
 		DB7CA41B16DACD3400AD8B4F /* ShoppingList */ = {
 			isa = PBXGroup;
 			children = (
+				DB860FB816DC19D20022D7EA /* Helpers */,
 				DB7CA42416DACD3400AD8B4F /* EKAppDelegate.h */,
 				DB7CA42516DACD3400AD8B4F /* EKAppDelegate.m */,
 				DB7CA42D16DACD3400AD8B4F /* EKViewController.h */,
@@ -101,9 +109,9 @@
 				DB7CA43016DACD3400AD8B4F /* EKViewController_iPhone.xib */,
 				DB7CA43316DACD3400AD8B4F /* EKViewController_iPad.xib */,
 				DB7CA41C16DACD3400AD8B4F /* Supporting Files */,
-				DB7CA44716DAD2E800AD8B4F /* Product.h */,
-				DB7CA44816DAD2E800AD8B4F /* Product.m */,
 				DB7CA44116DACD3400AD8B4F /* CoreDataModel.xcdatamodeld */,
+				DB860FB016DC11A00022D7EA /* Product.h */,
+				DB860FB116DC11A00022D7EA /* Product.m */,
 			);
 			path = ShoppingList;
 			sourceTree = "<group>";
@@ -120,6 +128,15 @@
 				DB7CA42B16DACD3400AD8B4F /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DB860FB816DC19D20022D7EA /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				DB860FB916DC19E50022D7EA /* Reachability.h */,
+				DB860FBA16DC19E50022D7EA /* Reachability.m */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,7 +211,8 @@
 				DB7CA42616DACD3400AD8B4F /* EKAppDelegate.m in Sources */,
 				DB7CA42F16DACD3400AD8B4F /* EKViewController.m in Sources */,
 				DB7CA44316DACD3400AD8B4F /* CoreDataModel.xcdatamodeld in Sources */,
-				DB7CA44916DAD2E900AD8B4F /* Product.m in Sources */,
+				DB860FB216DC11A00022D7EA /* Product.m in Sources */,
+				DB860FBB16DC19E50022D7EA /* Reachability.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -321,6 +339,7 @@
 				DB7CA43A16DACD3400AD8B4F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

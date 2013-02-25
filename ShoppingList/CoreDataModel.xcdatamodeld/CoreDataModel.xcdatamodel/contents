@@ -4,8 +4,9 @@
         <attribute name="productAmount" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="productBought" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="productName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="productTimeStamp" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Product" positionX="-63" positionY="-27" width="128" height="90"/>
+        <element name="Product" positionX="-63" positionY="-27" width="128" height="105"/>
     </elements>
 </model>
