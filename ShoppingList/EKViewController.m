@@ -160,7 +160,6 @@
     self.tableView.showsVerticalScrollIndicator = NO;
     self.navigationItem.rightBarButtonItem = self.addProduct;
     self.navigationItem.leftBarButtonItem = self.refreshContext;
-    
     NSTimer* myTimer = [NSTimer scheduledTimerWithTimeInterval: 10.0 target: self
                                                       selector: @selector(automaticUpdateProductsFromServer) userInfo: nil repeats: YES];
 }
@@ -194,7 +193,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *identifier = @"Identifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
     if(cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
@@ -209,22 +209,29 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section == 0) {
         Product *product = [self.productToBuy objectAtIndex:indexPath.row];
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
+        [self.tableView beginUpdates];
+        [self.tableView moveRowAtIndexPath:indexPath toIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
         [self.productToBuy removeObject:product];
-        [self.tableView beginUpdates];
-        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        [self.productBought addObject:product];
         [self.tableView endUpdates];
         
-        [self.productBought addObject:product];
-        [self.tableView beginUpdates];
-        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationFade];
-        [self.tableView reloadData];
-        [self.tableView endUpdates];
+        [self.managedObjectContext updatedObjects];
+        [self saveCurrentContext];
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 40.0f;
+}
+
+- (void)saveCurrentContext {
+    NSError *error;
+    if(![self.managedObjectContext save:&error]) {
+        NSLog(@"error");
+    }
 }
 
 - (void)addNewProduct:(NSString *)productName {
@@ -235,10 +242,7 @@
     product.productBought = [NSNumber numberWithBool:NO];
     product.productTimeStamp = [NSDate date];
     
-    NSError *error;
-    if(![self.managedObjectContext save:&error]) {
-        NSLog(@"error");
-    }
+    [self saveCurrentContext];
     
     [self.productToBuy addObject:product];
     [self.tableView beginUpdates];
