@@ -12,6 +12,7 @@
 #import <CoreData/CoreData.h>
 #import "EKAppDelegate.h"
 #import "Reachability.h"
+#import "EKAPIConnection.h"
 
 #define ADD_PRODUCT_TAG 111
 
@@ -154,6 +155,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    EKAPIConnection *api = [[EKAPIConnection alloc] init];
+    [api registerDevice];
+    
+    
     [self.view addSubview:self.tableView];
     self.tableView.layer.cornerRadius = 3.0;
     self.tableView.showsHorizontalScrollIndicator = NO;
