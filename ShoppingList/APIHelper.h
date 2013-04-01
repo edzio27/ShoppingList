@@ -12,7 +12,7 @@
 @interface APIHelper : NSObject
 
 - (void)addProductWithDictionary:(NSMutableDictionary *)dictionary andHandler:(void(^)(NSDecimalNumber *result))handler;
-- (void)getProductList;
+- (void)getProductListWithHandler:(void(^)(NSMutableArray *result))handler;
 - (void)getIdList;
 - (void)deleteProduct:(Product *)product;
 

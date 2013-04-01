@@ -9,12 +9,15 @@
 #import "APIHelper.h"
 #import "AFJSONRequestOperation.h"
 #import "AFHTTPClient.h"
+#import "Product.h"
+
+#define URL @"http://testurlgae.appspot.com"
 
 @implementation APIHelper
 
 - (void)addProductWithDictionary:(NSMutableDictionary *)dictionary andHandler:(void(^)(NSDecimalNumber *result))handler {
 
-    NSURL *url = [NSURL URLWithString:@"http://localhost:8080"];
+    NSURL *url = [NSURL URLWithString:URL];
     AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
     NSMutableURLRequest *urlRequest = [httpClient requestWithMethod:@"GET" path:@"addproduct" parameters:dictionary];
     
@@ -30,13 +33,13 @@
     
 }
 
-- (void)getProductList {
-    
-    NSURL *url = [NSURL URLWithString:@"http://localhost:8080"];
+- (void)getProductListWithHandler:(void(^)(NSMutableArray *result))handler {
+
+    NSURL *url = [NSURL URLWithString:URL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
         NSLog(@"App.net Global Stream: %@", JSON);
+        handler(JSON);
     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
         NSLog(@"error %@", error);
     }];
@@ -45,7 +48,7 @@
 
 - (void)getIdList {
     
-    NSURL *url = [NSURL URLWithString:@"http://localhost:8080/getid"];
+    NSURL *url = [NSURL URLWithString:URL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
@@ -57,9 +60,9 @@
 }
 
 - (void)deleteProduct:(Product *)product {
-    NSURL *url = [NSURL URLWithString:@"http://localhost:8080"];
+    NSURL *url = [NSURL URLWithString:URL];
     AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
-    NSLog(@"api id = %@", product.apiId);
+    NSLog(@"api id %@", product.apiId);
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObjects:@[product.apiId]
                                                                          forKeys:@[@"apiid"]];
     

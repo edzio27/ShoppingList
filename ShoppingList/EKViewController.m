@@ -221,6 +221,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section == 0) {
         Product *product = [self.productToBuy objectAtIndex:indexPath.row];
+        NSLog(@"api id %@", product.apiId);
+
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
@@ -256,7 +258,25 @@
     }];
 }
 
+- (void)refreshProductList {
+    [self.apiHelper getProductListWithHandler:^(NSMutableArray *result) {
+        [self.productToBuy removeAllObjects];
+        for(NSMutableDictionary *dictionary in result) {
+            Product *product = [NSEntityDescription insertNewObjectForEntityForName:@"Product" inManagedObjectContext:self.managedObjectContext];
+            product.productName = [dictionary objectForKey:@"name"];
+            product.productAmount = [dictionary objectForKey:@"amount"];
+            product.productBought = [NSNumber numberWithBool:NO];
+            product.productTimeStamp = [NSDate date];
+            product.apiId = [dictionary objectForKey:@"apiid"];
+            [self.productToBuy addObject:product];
+        }
+        [self saveCurrentContext];
+        [self.tableView reloadData];
+    }];
+}
+
 - (void)deleteProduct:(Product *)product {
+    NSLog(@"api id %@", product.apiId);
     [self.apiHelper deleteProduct:product];
 }
 
@@ -333,7 +353,7 @@
 /* Update only when user wants to */
 - (void)updateProductsFromServer {
     if([self isThereInternetConnection]) {
-        /* update */
+        [self refreshProductList];
     } else {
         [self showInternetConnectionTrouble];
     }
