@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1811" systemVersion="11E53" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="11G63" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Product" representedClassName="Product" syncable="YES">
+        <attribute name="apiId" attributeType="Decimal" defaultValueString="0.0" syncable="YES"/>
         <attribute name="productAmount" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="productBought" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="productName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="productTimeStamp" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Product" positionX="-63" positionY="-27" width="128" height="105"/>
+        <element name="Product" positionX="-63" positionY="-27" width="128" height="120"/>
     </elements>
 </model>

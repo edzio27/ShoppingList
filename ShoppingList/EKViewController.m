@@ -13,6 +13,7 @@
 #import "EKAppDelegate.h"
 #import "Reachability.h"
 #import "EKAPIConnection.h"
+#import "APIHelper.h"
 
 #define ADD_PRODUCT_TAG 111
 
@@ -31,6 +32,8 @@
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
+@property (nonatomic, strong) APIHelper *apiHelper;
+
 @end
 
 @implementation EKViewController
@@ -40,6 +43,13 @@
         _noConnectionAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"No internet connection" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     }
     return _noConnectionAlert;
+}
+
+- (APIHelper *)apiHelper {
+    if(_apiHelper == nil) {
+        _apiHelper = [[APIHelper alloc] init];
+    }
+    return _apiHelper;
 }
 
 - (UIAlertView *)addProductAlertView {
@@ -52,10 +62,6 @@
     }
     [_addProductAlertView textFieldAtIndex:0].text = @"";
     return _addProductAlertView;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    [self addNewProduct:textField.text];
 }
 
 - (void)addProductMethod {
@@ -226,6 +232,8 @@
         
         [self.managedObjectContext updatedObjects];
         [self saveCurrentContext];
+        
+        [self deleteProduct:product];
     }
 }
 
@@ -239,6 +247,20 @@
         NSLog(@"error");
     }
 }
+
+#pragma mark api methods
+
+- (void)addProduct:(Product *)product ToServerWithDictionary:dictionary {
+    [self.apiHelper addProductWithDictionary:dictionary andHandler:^(NSDecimalNumber *result) {
+        product.apiId = result;
+    }];
+}
+
+- (void)deleteProduct:(Product *)product {
+    [self.apiHelper deleteProduct:product];
+}
+
+#pragma end
 
 - (void)addNewProduct:(NSString *)productName {
     
@@ -255,7 +277,22 @@
     [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
     [self.tableView endUpdates];
     [self.tableView reloadData];
+    
+    /* add product to server */
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObjects:@[product.productName,
+                                                                         product.productAmount,
+                                                                         @"2013:03:30"]
+                                                                         forKeys:@[@"name",@"amount", @"time_stamp"]];
+    [self addProduct:product ToServerWithDictionary:dictionary];
 }
+
+#pragma mark API methodes
+
+- (void)synchronizedWithServer {
+    
+}
+
+#pragma end
 
 #pragma mark alertView delegate
 
