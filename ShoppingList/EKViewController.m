@@ -34,9 +34,41 @@
 
 @property (nonatomic, strong) APIHelper *apiHelper;
 
+@property (nonatomic, strong) UIButton *uploadButton;
+@property (nonatomic, strong) UIButton *downloadButton;
+
 @end
 
 @implementation EKViewController
+
+- (UIButton *)uploadButton {
+    if(_uploadButton == nil) {
+        _uploadButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 400, 130, 30)];
+    }
+    return _uploadButton;
+}
+
+- (UIButton *)downloadButton {
+    if(_downloadButton == nil) {
+        _downloadButton = [[UIButton alloc] initWithFrame:CGRectMake(160, 400, 130, 30)];
+        _downloadButton.backgroundColor = [UIColor blueColor];
+        _downloadButton.titleLabel.text = @"add";
+        [_downloadButton addTarget:self action:@selector(addAllProductToServer) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _downloadButton;
+}
+
+- (void)addAllProductToServer {
+    for(int i = 0; i < self.productToBuy.count; i++) {
+        /* add product to server */
+        Product *product = [self.productToBuy objectAtIndex:i];
+        NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObjects:@[product.productName,
+                                           product.productAmount,
+                                           @"2013:03:30"]
+                                                                             forKeys:@[@"name",@"amount", @"time_stamp"]];
+        [self addProduct:product ToServerWithDictionary:dictionary];
+    }
+}
 
 - (UIAlertView *)noConnectionAlert {
     if(_noConnectionAlert == nil) {
@@ -151,7 +183,7 @@
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(12, 12, 296, [UIScreen mainScreen].bounds.size.height
                                                                    - self.navigationController.navigationBar.frame.size.height
                                                                    - self.tabBarController.tabBar.frame.size.height
-                                                                   - 44)];
+                                                                   - 44 - 50)];
         _tableView.delegate = self;
         _tableView.dataSource = self;
     }
@@ -172,8 +204,10 @@
     self.tableView.showsVerticalScrollIndicator = NO;
     self.navigationItem.rightBarButtonItem = self.addProduct;
     self.navigationItem.leftBarButtonItem = self.refreshContext;
-    NSTimer* myTimer = [NSTimer scheduledTimerWithTimeInterval: 10.0 target: self
-                                                      selector: @selector(automaticUpdateProductsFromServer) userInfo: nil repeats: YES];
+    [self.view addSubview:self.uploadButton];
+    [self.view addSubview:self.downloadButton];
+    //NSTimer* myTimer = [NSTimer scheduledTimerWithTimeInterval: 10.0 target: self
+    //                                                  selector: @selector(automaticUpdateProductsFromServer) userInfo: nil repeats: YES];
 }
 
 - (void)didReceiveMemoryWarning
@@ -297,13 +331,6 @@
     [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
     [self.tableView endUpdates];
     [self.tableView reloadData];
-    
-    /* add product to server */
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObjects:@[product.productName,
-                                                                         product.productAmount,
-                                                                         @"2013:03:30"]
-                                                                         forKeys:@[@"name",@"amount", @"time_stamp"]];
-    [self addProduct:product ToServerWithDictionary:dictionary];
 }
 
 #pragma mark API methodes
