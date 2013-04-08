@@ -23,7 +23,6 @@
 		DB7CA44316DACD3400AD8B4F /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DB7CA44116DACD3400AD8B4F /* CoreDataModel.xcdatamodeld */; };
 		DB860FBB16DC19E50022D7EA /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = DB860FBA16DC19E50022D7EA /* Reachability.m */; };
 		DB860FC516DC1D530022D7EA /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB860FC416DC1D530022D7EA /* SystemConfiguration.framework */; };
-		DB88206B16DEB48F004E850B /* EKAPIConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = DB88206A16DEB48F004E850B /* EKAPIConnection.m */; };
 		DB8C085C170780B70061E3BF /* APIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8C085B170780B70061E3BF /* APIHelper.m */; };
 		DB8C0871170780EE0061E3BF /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8C085F170780EE0061E3BF /* AFHTTPClient.m */; };
 		DB8C0872170780EE0061E3BF /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8C0861170780EE0061E3BF /* AFHTTPRequestOperation.m */; };
@@ -62,8 +61,6 @@
 		DB860FB916DC19E50022D7EA /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		DB860FBA16DC19E50022D7EA /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		DB860FC416DC1D530022D7EA /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		DB88206916DEB48F004E850B /* EKAPIConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EKAPIConnection.h; sourceTree = "<group>"; };
-		DB88206A16DEB48F004E850B /* EKAPIConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EKAPIConnection.m; sourceTree = "<group>"; };
 		DB8C085A170780B70061E3BF /* APIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIHelper.h; sourceTree = "<group>"; };
 		DB8C085B170780B70061E3BF /* APIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIHelper.m; sourceTree = "<group>"; };
 		DB8C085E170780EE0061E3BF /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
@@ -138,7 +135,6 @@
 		DB7CA41B16DACD3400AD8B4F /* ShoppingList */ = {
 			isa = PBXGroup;
 			children = (
-				DB88206716DEB45C004E850B /* APIConnection */,
 				DB860FB816DC19D20022D7EA /* Helpers */,
 				DB7CA42416DACD3400AD8B4F /* EKAppDelegate.h */,
 				DB7CA42516DACD3400AD8B4F /* EKAppDelegate.m */,
@@ -179,15 +175,6 @@
 				DB8C085B170780B70061E3BF /* APIHelper.m */,
 			);
 			name = Helpers;
-			sourceTree = "<group>";
-		};
-		DB88206716DEB45C004E850B /* APIConnection */ = {
-			isa = PBXGroup;
-			children = (
-				DB88206916DEB48F004E850B /* EKAPIConnection.h */,
-				DB88206A16DEB48F004E850B /* EKAPIConnection.m */,
-			);
-			name = APIConnection;
 			sourceTree = "<group>";
 		};
 		DB8C085D170780EE0061E3BF /* AFNetworking */ = {
@@ -289,7 +276,6 @@
 				DB7CA42F16DACD3400AD8B4F /* EKViewController.m in Sources */,
 				DB7CA44316DACD3400AD8B4F /* CoreDataModel.xcdatamodeld in Sources */,
 				DB860FBB16DC19E50022D7EA /* Reachability.m in Sources */,
-				DB88206B16DEB48F004E850B /* EKAPIConnection.m in Sources */,
 				DB8C085C170780B70061E3BF /* APIHelper.m in Sources */,
 				DB8C0871170780EE0061E3BF /* AFHTTPClient.m in Sources */,
 				DB8C0872170780EE0061E3BF /* AFHTTPRequestOperation.m in Sources */,

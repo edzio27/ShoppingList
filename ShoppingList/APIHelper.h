@@ -14,6 +14,7 @@
 - (void)addProductWithDictionary:(NSMutableDictionary *)dictionary andHandler:(void(^)(NSDecimalNumber *result))handler;
 - (void)getProductListWithHandler:(void(^)(NSMutableArray *result))handler;
 - (void)getIdList;
+- (void)removaAllElementsFromServer;
 - (void)deleteProduct:(Product *)product;
 
 @end

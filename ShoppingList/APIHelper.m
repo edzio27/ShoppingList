@@ -46,6 +46,19 @@
     [operation start];
 }
 
+- (void)removaAllElementsFromServer {
+    NSURL *url = [NSURL URLWithString:URL];
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:url];
+    
+    NSMutableURLRequest *urlRequest = [httpClient requestWithMethod:@"GET" path:@"deleteall" parameters:nil];
+    AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:urlRequest success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
+        NSLog(@"App.net Global Stream: %@", JSON);
+    } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error, id JSON) {
+        NSLog(@"error %@", error);
+    }];
+    [operation start];
+}
+
 - (void)getIdList {
     
     NSURL *url = [NSURL URLWithString:URL];

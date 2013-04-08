@@ -12,7 +12,6 @@
 #import <CoreData/CoreData.h>
 #import "EKAppDelegate.h"
 #import "Reachability.h"
-#import "EKAPIConnection.h"
 #import "APIHelper.h"
 
 #define ADD_PRODUCT_TAG 111
@@ -24,8 +23,10 @@
 @property (nonatomic, strong) NSMutableArray *productList;
 @property (nonatomic, strong) NSMutableArray *productToBuy;
 @property (nonatomic, strong) NSMutableArray *productBought;
-@property (nonatomic, strong) UIBarButtonItem *addProduct;
-@property (nonatomic, strong) UIBarButtonItem *refreshContext;
+
+@property (nonatomic, strong) UIBarButtonItem *uploadAllProductsToServerItem;
+@property (nonatomic, strong) UIBarButtonItem *downloadAllProductFromServerItem;
+
 @property (nonatomic, strong) UIAlertView *addProductAlertView;
 @property (nonatomic, strong) UIAlertView *noConnectionAlert;
 
@@ -33,40 +34,36 @@
 @property (nonatomic, strong) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 @property (nonatomic, strong) APIHelper *apiHelper;
-
-@property (nonatomic, strong) UIButton *uploadButton;
 @property (nonatomic, strong) UIButton *downloadButton;
 
 @end
 
 @implementation EKViewController
 
-- (UIButton *)uploadButton {
-    if(_uploadButton == nil) {
-        _uploadButton = [[UIButton alloc] initWithFrame:CGRectMake(10, 400, 130, 30)];
-    }
-    return _uploadButton;
-}
-
 - (UIButton *)downloadButton {
     if(_downloadButton == nil) {
-        _downloadButton = [[UIButton alloc] initWithFrame:CGRectMake(160, 400, 130, 30)];
+        _downloadButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 370, 280, 30)];
         _downloadButton.backgroundColor = [UIColor blueColor];
         _downloadButton.titleLabel.text = @"add";
-        [_downloadButton addTarget:self action:@selector(addAllProductToServer) forControlEvents:UIControlEventTouchUpInside];
+        [_downloadButton addTarget:self action:@selector(addProductMethod) forControlEvents:UIControlEventTouchUpInside];
     }
     return _downloadButton;
 }
 
 - (void)addAllProductToServer {
-    for(int i = 0; i < self.productToBuy.count; i++) {
-        /* add product to server */
-        Product *product = [self.productToBuy objectAtIndex:i];
-        NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObjects:@[product.productName,
-                                           product.productAmount,
-                                           @"2013:03:30"]
-                                                                             forKeys:@[@"name",@"amount", @"time_stamp"]];
-        [self addProduct:product ToServerWithDictionary:dictionary];
+    if([self isThereInternetConnection]) {
+        [self.apiHelper removaAllElementsFromServer];
+        for(int i = 0; i < self.productToBuy.count; i++) {
+            /* add product to server */
+            Product *product = [self.productToBuy objectAtIndex:i];
+            NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObjects:@[product.productName,
+                                               product.productAmount,
+                                               @"2013:03:30"]
+                                                                                 forKeys:@[@"name",@"amount", @"time_stamp"]];
+            [self addProduct:product ToServerWithDictionary:dictionary];
+        }
+    } else {
+        [self showInternetConnectionTrouble];
     }
 }
 
@@ -100,18 +97,18 @@
     [self.addProductAlertView show];
 }
 
-- (UIBarButtonItem *)addProduct {
-    if(_addProduct == nil) {
-        _addProduct = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addProductMethod)];
+- (UIBarButtonItem *)uploadAllProductsToServerItem {
+    if(_uploadAllProductsToServerItem == nil) {
+        _uploadAllProductsToServerItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addAllProductToServer)];
     }
-    return _addProduct;
+    return _uploadAllProductsToServerItem;
 }
 
-- (UIBarButtonItem *)refreshContext {
-    if(_refreshContext == nil) {
-        _refreshContext = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(updateProductsFromServer)];
+- (UIBarButtonItem *)downloadAllProductFromServerItem {
+    if(_downloadAllProductFromServerItem == nil) {
+        _downloadAllProductFromServerItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(updateProductsFromServer)];
     }
-    return _refreshContext;
+    return _downloadAllProductFromServerItem;
 }
 
 - (NSMutableArray *)productBought {
@@ -194,17 +191,12 @@
 {
     [super viewDidLoad];
     
-    EKAPIConnection *api = [[EKAPIConnection alloc] init];
-    [api registerDevice];
-    
-    
     [self.view addSubview:self.tableView];
     self.tableView.layer.cornerRadius = 3.0;
     self.tableView.showsHorizontalScrollIndicator = NO;
     self.tableView.showsVerticalScrollIndicator = NO;
-    self.navigationItem.rightBarButtonItem = self.addProduct;
-    self.navigationItem.leftBarButtonItem = self.refreshContext;
-    [self.view addSubview:self.uploadButton];
+    self.navigationItem.rightBarButtonItem = self.uploadAllProductsToServerItem;
+    self.navigationItem.leftBarButtonItem = self.downloadAllProductFromServerItem;
     [self.view addSubview:self.downloadButton];
     //NSTimer* myTimer = [NSTimer scheduledTimerWithTimeInterval: 10.0 target: self
     //                                                  selector: @selector(automaticUpdateProductsFromServer) userInfo: nil repeats: YES];
@@ -268,8 +260,6 @@
         
         [self.managedObjectContext updatedObjects];
         [self saveCurrentContext];
-        
-        [self deleteProduct:product];
     }
 }
 
