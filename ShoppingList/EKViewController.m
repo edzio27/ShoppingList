@@ -15,6 +15,8 @@
 #import "APIHelper.h"
 
 #define ADD_PRODUCT_TAG 111
+#define UPLOAD_LIST_ALERT 222
+#define DOWNLOAD_LIST_ALERT 333
 
 @interface EKViewController ()
 
@@ -28,6 +30,9 @@
 @property (nonatomic, strong) UIBarButtonItem *downloadAllProductFromServerItem;
 
 @property (nonatomic, strong) UIAlertView *addProductAlertView;
+@property (nonatomic, strong) UIAlertView *uploadListAlertView;
+@property (nonatomic, strong) UIAlertView *downloadListAlertView;
+
 @property (nonatomic, strong) UIAlertView *noConnectionAlert;
 
 @property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
@@ -43,8 +48,8 @@
 - (UIButton *)downloadButton {
     if(_downloadButton == nil) {
         _downloadButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 370, 280, 30)];
-        _downloadButton.backgroundColor = [UIColor blueColor];
-        _downloadButton.titleLabel.text = @"add";
+        _downloadButton.backgroundColor = [UIColor colorWithRed:1 green:0.6 blue:0 alpha:1];
+        [_downloadButton setTitle:@"Dodaj produkt" forState:UIControlStateNormal];
         [_downloadButton addTarget:self action:@selector(addProductMethod) forControlEvents:UIControlEventTouchUpInside];
     }
     return _downloadButton;
@@ -74,6 +79,22 @@
     return _noConnectionAlert;
 }
 
+- (UIAlertView *)uploadListAlertView {
+    if(_uploadListAlertView == nil) {
+        _uploadListAlertView = [[UIAlertView alloc] initWithTitle:@"Wysłanie listy" message:@"Chcesz wysłać listę na serwer? Wszystkie dane z serwera zostana skasowane!" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Upload", nil];
+        _uploadListAlertView.tag = UPLOAD_LIST_ALERT;
+    }
+    return _uploadListAlertView;
+}
+
+- (UIAlertView *)downloadListAlertView {
+    if(_downloadListAlertView == nil) {
+        _downloadListAlertView = [[UIAlertView alloc] initWithTitle:@"Pobranie listy" message:@"Chcesz pobrać listę z serwera? Wszystkie dane z aktualnej listy zostana skasowane!" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Download", nil];
+        _downloadListAlertView.tag = DOWNLOAD_LIST_ALERT;
+    }
+    return _downloadListAlertView;
+}
+
 - (APIHelper *)apiHelper {
     if(_apiHelper == nil) {
         _apiHelper = [[APIHelper alloc] init];
@@ -99,16 +120,34 @@
 
 - (UIBarButtonItem *)uploadAllProductsToServerItem {
     if(_uploadAllProductsToServerItem == nil) {
-        _uploadAllProductsToServerItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addAllProductToServer)];
+        UIButton *someButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 26, 26)];
+        [someButton setBackgroundImage:[UIImage imageNamed:@"arrowup"] forState:UIControlStateNormal];
+        [someButton addTarget:self action:@selector(showUploadAlertView)
+             forControlEvents:UIControlEventTouchUpInside];
+        [someButton setShowsTouchWhenHighlighted:YES];
+        _uploadAllProductsToServerItem = [[UIBarButtonItem alloc] initWithCustomView:someButton];
     }
     return _uploadAllProductsToServerItem;
 }
 
+- (void)showUploadAlertView {
+    [self.uploadListAlertView show];
+}
+
 - (UIBarButtonItem *)downloadAllProductFromServerItem {
     if(_downloadAllProductFromServerItem == nil) {
-        _downloadAllProductFromServerItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(updateProductsFromServer)];
+        UIButton *someButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 26, 26)];
+        [someButton setBackgroundImage:[UIImage imageNamed:@"arrowdown"] forState:UIControlStateNormal];
+        [someButton addTarget:self action:@selector(showDownloadAlertView)
+             forControlEvents:UIControlEventTouchUpInside];
+        [someButton setShowsTouchWhenHighlighted:YES];
+        _downloadAllProductFromServerItem = [[UIBarButtonItem alloc] initWithCustomView:someButton];
     }
     return _downloadAllProductFromServerItem;
+}
+
+- (void)showDownloadAlertView {
+    [self.downloadListAlertView show];
 }
 
 - (NSMutableArray *)productBought {
@@ -198,6 +237,12 @@
     self.navigationItem.rightBarButtonItem = self.uploadAllProductsToServerItem;
     self.navigationItem.leftBarButtonItem = self.downloadAllProductFromServerItem;
     [self.view addSubview:self.downloadButton];
+    self.navigationItem.title = @"Lista zakupów";
+    
+    
+    self.view.backgroundColor = [UIColor colorWithRed:0.373 green:0.373 blue:0.373 alpha:1];
+    
+    self.navigationController.navigationBar.tintColor = [UIColor colorWithRed:1 green:0.6 blue:0 alpha:1];
     //NSTimer* myTimer = [NSTimer scheduledTimerWithTimeInterval: 10.0 target: self
     //                                                  selector: @selector(automaticUpdateProductsFromServer) userInfo: nil repeats: YES];
 }
@@ -323,12 +368,6 @@
     [self.tableView reloadData];
 }
 
-#pragma mark API methodes
-
-- (void)synchronizedWithServer {
-    
-}
-
 #pragma end
 
 #pragma mark alertView delegate
@@ -339,6 +378,15 @@
             [self addNewProduct:[alertView textFieldAtIndex:0].text];
         }
     }
+    if(alertView.tag == UPLOAD_LIST_ALERT) {
+        if(buttonIndex == 1) {
+            [self addAllProductToServer];
+        }
+    }
+    if(alertView.tag == DOWNLOAD_LIST_ALERT) {
+        [self refreshProductList];
+    }
+
 }
 
 #pragma end
@@ -347,24 +395,11 @@
 - (BOOL)isThereInternetConnection {
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
-    
     return internetStatus != NotReachable ? YES : NO;
 }
 
 - (void)showInternetConnectionTrouble {
     [self.noConnectionAlert show];
-}
-
-/* Every 60 seconds automatoc update */
-- (void)automaticUpdateProductsFromServer {
-    if([self isThereInternetConnection]) {
-        /* TODO automatically updates context on device and switch badges */
-        
-        
-        /* TODO check is there any difference between what you get from server and what you have in application */
-        /* If there any difference let know user, to make updated list on phone */
-        /* There also want be any conflict */
-    }
 }
 
 /* Update only when user wants to */

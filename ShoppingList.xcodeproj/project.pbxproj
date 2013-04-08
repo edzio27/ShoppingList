@@ -33,6 +33,8 @@
 		DB8C0877170780EE0061E3BF /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8C086C170780EE0061E3BF /* AFURLConnectionOperation.m */; };
 		DB8C0878170780EE0061E3BF /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8C086E170780EE0061E3BF /* AFXMLRequestOperation.m */; };
 		DB8C0879170780EE0061E3BF /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = DB8C0870170780EE0061E3BF /* UIImageView+AFNetworking.m */; };
+		DB95B00E17132DC70038114A /* arrowdown.png in Resources */ = {isa = PBXBuildFile; fileRef = DB95B00C17132DC70038114A /* arrowdown.png */; };
+		DB95B00F17132DC70038114A /* arrowup.png in Resources */ = {isa = PBXBuildFile; fileRef = DB95B00D17132DC70038114A /* arrowup.png */; };
 		DBB968D8170967C200E795A1 /* Product.m in Sources */ = {isa = PBXBuildFile; fileRef = DBB968D7170967C200E795A1 /* Product.m */; };
 /* End PBXBuildFile section */
 
@@ -82,6 +84,8 @@
 		DB8C086E170780EE0061E3BF /* AFXMLRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFXMLRequestOperation.m; sourceTree = "<group>"; };
 		DB8C086F170780EE0061E3BF /* UIImageView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+AFNetworking.h"; sourceTree = "<group>"; };
 		DB8C0870170780EE0061E3BF /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
+		DB95B00C17132DC70038114A /* arrowdown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrowdown.png; sourceTree = "<group>"; };
+		DB95B00D17132DC70038114A /* arrowup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrowup.png; sourceTree = "<group>"; };
 		DBB968D6170967C200E795A1 /* Product.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Product.h; sourceTree = "<group>"; };
 		DBB968D7170967C200E795A1 /* Product.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Product.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -153,6 +157,7 @@
 		DB7CA41C16DACD3400AD8B4F /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				DB95B00B17132DB70038114A /* Resources */,
 				DBB968D6170967C200E795A1 /* Product.h */,
 				DBB968D7170967C200E795A1 /* Product.m */,
 				DB7CA41D16DACD3400AD8B4F /* ShoppingList-Info.plist */,
@@ -201,6 +206,15 @@
 				DB8C0870170780EE0061E3BF /* UIImageView+AFNetworking.m */,
 			);
 			path = AFNetworking;
+			sourceTree = "<group>";
+		};
+		DB95B00B17132DB70038114A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DB95B00C17132DC70038114A /* arrowdown.png */,
+				DB95B00D17132DC70038114A /* arrowup.png */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,6 +275,8 @@
 				DB7CA42C16DACD3400AD8B4F /* Default-568h@2x.png in Resources */,
 				DB7CA43216DACD3400AD8B4F /* EKViewController_iPhone.xib in Resources */,
 				DB7CA43516DACD3400AD8B4F /* EKViewController_iPad.xib in Resources */,
+				DB95B00E17132DC70038114A /* arrowdown.png in Resources */,
+				DB95B00F17132DC70038114A /* arrowup.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
