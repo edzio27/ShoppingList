@@ -47,9 +47,10 @@
 
 - (UIButton *)downloadButton {
     if(_downloadButton == nil) {
-        _downloadButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 370, 280, 30)];
+        _downloadButton = [[UIButton alloc] initWithFrame:CGRectMake(12, [UIScreen mainScreen].bounds.size.height - 110, 296, 30)];
         _downloadButton.backgroundColor = [UIColor colorWithRed:1 green:0.6 blue:0 alpha:1];
         [_downloadButton setTitle:@"Dodaj produkt" forState:UIControlStateNormal];
+        _downloadButton.titleLabel.textColor = [UIColor colorWithRed:0.373 green:0.373 blue:0.373 alpha:1];
         [_downloadButton addTarget:self action:@selector(addProductMethod) forControlEvents:UIControlEventTouchUpInside];
     }
     return _downloadButton;
@@ -267,10 +268,11 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if(section == 0)
+    if(section == 0) {
         return self.productToBuy.count;
-    else
+    } else {
         return self.productBought.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -284,6 +286,7 @@
     }
     
     Product *product = [[self.productList objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    
     cell.textLabel.text = product.productName;
     
     return cell;
@@ -292,6 +295,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section == 0) {
         Product *product = [self.productToBuy objectAtIndex:indexPath.row];
+        product.productBought = [NSNumber numberWithBool:YES];
+        [self saveCurrentContext];
+        
         NSLog(@"api id %@", product.apiId);
 
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
@@ -300,11 +306,14 @@
         [self.tableView beginUpdates];
         [self.tableView moveRowAtIndexPath:indexPath toIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]];
         [self.productToBuy removeObject:product];
+        NSLog(@"numbae of products bought %d", self.productBought.count);
         [self.productBought addObject:product];
+        NSLog(@"numbae of products bought %d", self.productBought.count);
         [self.tableView endUpdates];
         
-        [self.managedObjectContext updatedObjects];
+        //[self.managedObjectContext updatedObjects];
         [self saveCurrentContext];
+        NSLog(@"numbae of products bought %d", self.productBought.count);
     }
 }
 
